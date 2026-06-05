@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang ="ja">
+
+<head>
+    <meta charset ="CTF-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
+    <title>卒論サポートサイト</title>
+    <!-- Zen Kaku Gothic New を読み込む -->
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet">
+    <!--style.cssを読み込む-->
+    <link rel ="stylesheet" href="style.css"/>
+    <!-- JavaScriptファイルを読み込む（defer = HTML読み込み後に実行） -->
+    <script src="main.js" defer></script>
+</head>
+
+<body>
+
+    <!--ヘッダー部分-->
+    <header class="site-header">
+        <h1>卒論</h1>
+    </header>
+
+    <!--メインエリア-->
+    <div class="layout">
+
+        <!--左：サイドバー-->
+        <nav class="sidebar">
+            <ul>
+                <li id="nav-paper" class="active">資料管理</li>
+                <li id="nav-memo">メモ</li>
+            </ul>
+        </nav>
+
+        <!--右：メインコンテンツ-->
+        <main class="main-content">
+            <section id="page-memo" class="page hidden">
+            <h2>メモ</h2>
+            <!--入力エリア-->
+            <div class="memo-input-area">
+                <textarea
+                id="memo-input"
+                placeholder="書いてって～～"
+                rows="3"
+                ></textarea>
+                <button id="memo-add-btn">追加する</button>
+            </div>
+
+            <!--メモの一覧-->
+            <ul id="memo-list"></ul>
+            </section>
+
+            <!--資料管理-->
+            <section id="page-paper" class="page">
+                <h2>資料管理</h2>
+                 <!-- 登録フォーム -->
+                <div class="form-card">
+                <div class="form-row">
+                    <label for="paper-title">タイトル</label>
+                    <input type="text" id="paper-title" placeholder="資料のタイトル" />
+                </div>
+                <div class="form-row">
+                    <label for="paper-url">レジュメ</label>
+                    <input type="text" id="paper-url" placeholder="Google Document" />
+                </div>
+                <div class="form-row">
+                    <label for="paper-memo">要旨</label>
+                    <textarea id="paper-memo" rows="3" placeholder="Abstract和訳"></textarea>
+                </div>
+                <div class="form-row">
+                    <label for="paper-reason">読んだ目的</label>
+                    <textarea id="paper-reason" rows="2" placeholder="きっかけ・文脈"></textarea>
+                </div>
+                <div class="form-row">
+                <label for="paper-citation">引用</label>
+                <textarea id="paper-citation" rows="2" placeholder=""></textarea>
+                </div>
+                <button id="paper-add-btn">登録する</button>
+                </div>
+                <!-- 資料リスト -->
+                <div id="paper-index" class="paper-index"></div>
+
+                <!-- 資料一覧 -->
+                <div id="paper-list"></div>
+
+                
+            </section>
+
+        </main>
+    </div>
+</body>
+
+</html>
