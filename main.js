@@ -17,21 +17,63 @@ const pages = {
 
 // 指定したページに切り替える関数
 function showPage(name){
-    //すべてのページを非表示・すべてのナビを非アクティブ
     Object.keys(pages).forEach(function(key){
         pages[key].classList.add('hidden');
         navItems[key].classList.remove('active');
     });
-
-    //指定したページだけ表示・ナビをアクティブに
     pages[name].classList.remove('hidden');
     navItems[name].classList.add('active');
 
+    // 資料管理のときだけサブ項目を表示
+    // 資料管理のときだけサブ項目を表示
+const subItems = document.querySelectorAll('.sub-item');
+subItems.forEach(function(item){
+    item.classList.add('hidden');
+});
+
+if(name === 'paper'){
+    document.getElementById('nav-paper-form').classList.remove('hidden');
+    document.getElementById('nav-paper-index').classList.remove('hidden');
+    document.getElementById('nav-paper-cards').classList.remove('hidden');
+}
+
+if(name === 'memo'){
+    document.getElementById('nav-memo-form').classList.remove('hidden');
+    document.getElementById('nav-memo-list').classList.remove('hidden');
+}
 }
 
 //ナビクリックでページ切り替え
 navItems.memo.addEventListener('click',  function() { showPage('memo'); });
-navItems.paper.addEventListener('click', function() { showPage('paper'); });
+navItems.paper.addEventListener('click', function() {
+    showPage('paper');
+});
+
+// サブメニューのクリックでスクロール
+document.getElementById('nav-paper-form').addEventListener('click', function(event) {
+    event.stopPropagation();
+    document.getElementById('section-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+document.getElementById('nav-paper-index').addEventListener('click', function(event) {
+    event.stopPropagation();
+    document.getElementById('section-index').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+document.getElementById('nav-paper-cards').addEventListener('click', function(event) {
+    event.stopPropagation();
+    document.getElementById('section-cards').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+document.getElementById('nav-memo-form').addEventListener('click', function(event) {
+    event.stopPropagation();
+    document.getElementById('section-memo-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+document.getElementById('nav-memo-list').addEventListener('click', function(event) {
+    event.stopPropagation();
+    document.getElementById('section-memo-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
 
 //ボタンが押されたときの処理
 memoAddBtn.addEventListener('click',function(){
@@ -131,7 +173,7 @@ function addPaper(){
 function renderPapers() {
   paperList.innerHTML = '';
     const paperIndex = document.getElementById('paper-index');
-  paperIndex.innerHTML = '<h3>資料リスト</h3>';
+  paperIndex.innerHTML = '';
 
   const indexList = document.createElement('ul');
   indexList.className = 'index-list';

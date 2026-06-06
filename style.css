@@ -1,7 +1,7 @@
 /*色とサイズの変数定義*/
 :root{
     --color-primary: #1F6367; /*メインカラー*/
-    --color-primary-light: #D9EFEF; /* メインカラーの薄い版 */
+    --color-primary-light: #cadbdc; /* メインカラーの薄い版 */
     --color-primary-hover: rgb(254, 246, 247); /* ホバー時の背景 */
     --color-bg: #FCF9F5;           /* ページ背景 */
     --color-white: #fff;           /* 白 */
@@ -69,7 +69,7 @@ body {
   color: var(--color-primary);
 }
 
-.sidebar li.active {
+.sidebar > ul > li.active {
   background-color: var(--color-primary-light);
   color: var(--color-primary);
   font-weight: bold;
@@ -85,7 +85,7 @@ body {
 .main-content h2 {
   font-size: 22px;
   margin-bottom: 16px;
-  color: var(--color-primary);
+  color: #C95B50;
 }
 
 /* ===== 問いメモ帳 ===== */
@@ -234,11 +234,12 @@ input[type="text"]:focus {
 .paper-title {
   font-size: 17px;
   font-weight: bold;
+  color: var(--color-primary)
 }
 
 .paper-url {
   font-size: 13px;
-  color: var(--color-primary);
+  color: var(--color-text);
   word-break: break-all;
 }
 
@@ -257,9 +258,10 @@ input[type="text"]:focus {
 }
 
 .paper-section {
-  font-size: 14px;
+  font-size: 10px;
   line-height: 1.6;
   white-space: pre-wrap;
+  color:var(--color-text-sub)
 }
 
 .label {
@@ -267,6 +269,7 @@ input[type="text"]:focus {
   font-size: 12px;
   font-weight: bold;
   color: var(--color-text-sub);
+  color:#204445; 
   margin-bottom: 2px;
 }
 
@@ -290,9 +293,6 @@ input[type="text"]:focus {
   opacity: 1;
 }
 
-/* ===== 繋がり表示 ===== */
-
-
 
 .paper-embed {
   width: 100%;
@@ -312,7 +312,7 @@ input[type="text"]:focus {
 
 .paper-index h3 {
   font-size: 15px;
-  color: var(--color-primary);
+  color: var(--color-text);
   margin-bottom: 8px;
 }
 
@@ -326,7 +326,7 @@ input[type="text"]:focus {
 }
 
 .index-list li a {
-  color: var(--color-primary);
+  color: var(--color-text);
   text-decoration: none;
   font-size: 14px;
 }
@@ -348,7 +348,7 @@ input[type="text"]:focus {
   display: inline-block;
   margin-bottom: 8px;
   font-size: 13px;
-  color: var(--color-primary);
+  color: var(--color-text-sub);
   text-decoration: none;
 }
 
@@ -371,3 +371,26 @@ input[type="text"]:focus {
 #memo-add-btn:hover {
   background-color: #e6776d;
 }
+
+/* ヘッダーのタイトル */
+.site-header h1 {
+  font-family: "Kiwi Maru", serif;
+}
+
+/* ページの見出し */
+.main-content h2 {
+  font-family: "Kiwi Maru", serif;
+}
+
+/* ❌ サブメニュー関連を全部削除して以下に書き換え */
+
+.sub-item {
+  padding: 8px 20px 8px 32px !important;
+  font-size: 13px;
+  color: var(--color-text-sub);
+}
+
+.sub-item:hover {
+  color: var(--color-primary);
+}
+

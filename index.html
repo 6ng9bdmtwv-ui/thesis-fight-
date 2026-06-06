@@ -7,6 +7,7 @@
     <title>卒論サポートサイト</title>
     <!-- Zen Kaku Gothic New を読み込む -->
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&display=swap" rel="stylesheet">
     <!--style.cssを読み込む-->
     <link rel ="stylesheet" href="style.css"/>
     <!-- JavaScriptファイルを読み込む（defer = HTML読み込み後に実行） -->
@@ -27,14 +28,22 @@
         <nav class="sidebar">
             <ul>
                 <li id="nav-paper" class="active">資料管理</li>
+                <li id="nav-paper-form" class="sub-item hidden">入力フォーム</li>
+                <li id="nav-paper-index" class="sub-item hidden">リスト</li>
+                <li id="nav-paper-cards" class="sub-item hidden">一覧</li>
                 <li id="nav-memo">メモ</li>
+                <li id="nav-memo-form" class="sub-item hidden">入力フォーム</li>
+                <li id="nav-memo-list" class="sub-item hidden">一覧</li>
             </ul>
+ 
+</ul>
         </nav>
 
         <!--右：メインコンテンツ-->
         <main class="main-content">
             <section id="page-memo" class="page hidden">
-            <h2>メモ</h2>
+            <h2 id="section-memo-form">入力フォーム</h2>
+            <div class="memo-input-area">
             <!--入力エリア-->
             <div class="memo-input-area">
                 <textarea
@@ -46,13 +55,15 @@
             </div>
 
             <!--メモの一覧-->
+            <h2 id="section-memo-list">一覧</h2>
             <ul id="memo-list"></ul>
             </section>
 
             <!--資料管理-->
             <section id="page-paper" class="page">
-                <h2>資料管理</h2>
+                
                  <!-- 登録フォーム -->
+                <h2 id="section-form">入力フォーム</h2>
                 <div class="form-card">
                 <div class="form-row">
                     <label for="paper-title">タイトル</label>
@@ -76,6 +87,11 @@
                 </div>
                 <button id="paper-add-btn">登録する</button>
                 </div>
+                <h2 id="section-index">リスト</h2>
+                <div id="paper-index" class="paper-index"></div>
+                <h2 id="section-cards">一覧</h2>
+                <div id="paper-list"></div>
+
                 <!-- 資料リスト -->
                 <div id="paper-index" class="paper-index"></div>
 
