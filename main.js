@@ -304,3 +304,26 @@ function loadData() {
 
 loadData();
 
+// ===== サイドバーリサイズ =====
+const resizer   = document.getElementById('sidebar-resizer');
+const sidebar   = document.querySelector('.sidebar');
+
+resizer.addEventListener('mousedown', function(event) {
+  event.preventDefault();
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
+function onMouseMove(event) {
+  const newWidth = event.clientX;
+  if (newWidth > 100 && newWidth < 400) {
+    sidebar.style.width = newWidth + 'px';
+  }
+}
+
+function onMouseUp() {
+  document.removeEventListener('mousemove', onMouseMove);
+  document.removeEventListener('mouseup', onMouseUp);
+}
+
