@@ -144,6 +144,7 @@ function addPaper(){
     const reason = document.getElementById('paper-reason').value.trim();
     const memo   = document.getElementById('paper-memo').value.trim();
     const citation = document.getElementById('paper-citation').value.trim();
+    const category = document.getElementById('paper-category').value;
     if (title === ''){
         alert('タイトルを入力してください');
         return;
@@ -156,6 +157,7 @@ function addPaper(){
     memo:   memo,
     citation: citation,
     date:   getDateStr(),
+    category: category,
    };
 
 
@@ -168,6 +170,7 @@ function addPaper(){
   document.getElementById('paper-reason').value = '';
   document.getElementById('paper-memo').value   = '';
   document.getElementById('paper-citation').value = '';
+  document.getElementById('paper-category').value = '';
 }
 
 function renderPapers() {
@@ -204,24 +207,44 @@ const urlHTML = isGoogleDoc
   : paper.url
     ? `<a href="${paper.url}" target="_blank" class="paper-url">🔗 ${paper.url}</a>`
     : '';
+// 分類ごとの絵文字
+const categoryEmoji = {
+  primary:  '📜', // 一次資料
+  research: '📚', // 先行研究
+  draft:    '🖋', // 下書き
+  '':       '📄', // 未分類
+};
+const emoji = categoryEmoji[paper.category] || '📄';
 
     card.innerHTML = `
       <div class="paper-header">
-        <div class="paper-title">${paper.title}</div>
-        <button class="paper-delete-btn" data-id="${paper.id}">削除</button>
+        <div class="paper-title">${emoji} ${paper.title}</div>
+        <div class="paper-btns">
+          <button class="paper-edit-btn" data-id="${paper.id}">編集</button>
+          <button class="paper-delete-btn" data-id="${paper.id}">削除</button>
+        </div>
       </div>
       ${urlHTML}
       ${paper.memo   ? `<div class="paper-section"><span class="label">要旨</span>${paper.memo}</div>` : ''}
       ${paper.reason ? `<div class="paper-section"><span class="label">読んだ目的</span>${paper.reason}</div>` : ''}
       ${paper.citation ? `<div class="paper-section"><span class="label">引用</span>${paper.citation}</div>` : ''}
-      <div class="paper-date">${paper.date}</div>
+      ${paper.category ? `<div class="paper-section"><span class="label">分類</span>${
+      paper.category === 'primary' ? '一次資料' :
+      paper.category === 'research' ? '先行研究' :
+      paper.category === 'draft' ? '下書き' : ''
+    }</div>` : ''}
+    <div class="paper-date">${paper.date}</div>
+  
     `;
+      card.querySelector('.paper-edit-btn').addEventListener('click', function() {
+      const id = Number(card.id.replace('paper-', ''));
+      editPaper(id);
+      }); 
 
-    card.querySelector('.paper-delete-btn').addEventListener('click', function(event) {
-      const id = Number(event.target.dataset.id);
-      deletePaper(id);
-    });
-
+      card.querySelector('.paper-delete-btn').addEventListener('click', function(event) {
+          const id = Number(event.target.dataset.id);
+          deletePaper(id);
+      });
     paperList.appendChild(card);
   });
 }
@@ -327,3 +350,112 @@ function onMouseUp() {
   document.removeEventListener('mouseup', onMouseUp);
 }
 
+// ===== タブ切り替え =====
+const tabBtns = document.querySelectorAll('.tab-btn');
+
+tabBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    // アクティブなタブを切り替える
+    tabBtns.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+
+    // 選択したタブに応じて資料を絞り込む
+    const tab = btn.dataset.tab;
+    filterPapers(tab);
+  });
+});
+
+function filterPapers(tab) {
+  // カードを絞り込む
+  const cards = document.querySelectorAll('.paper-card');
+  cards.forEach(function(card) {
+    const id = Number(card.id.replace('paper-', ''));
+    const paper = papers.find(p => p.id === id);
+
+    if (tab === 'all' || paper.category === tab) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  // リストも絞り込む
+  const paperIndex = document.getElementById('paper-index');
+  paperIndex.innerHTML = '';
+
+  const indexList = document.createElement('ul');
+  indexList.className = 'index-list';
+
+  const filteredPapers = tab === 'all'
+    ? papers
+    : papers.filter(p => p.category === tab);
+
+  filteredPapers.forEach(function(paper) {
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#paper-${paper.id}">${paper.title}</a>`;
+    indexList.appendChild(li);
+  });
+
+  paperIndex.appendChild(indexList);
+}
+
+// ===== 資料編集 =====
+function editPaper(id) {
+  const paper = papers.find(p => p.id === id);
+  const card  = document.getElementById('paper-' + id);
+
+  // カードを編集フォームに切り替える
+  card.innerHTML = `
+    <div class="form-row">
+      <label>タイトル</label>
+      <input type="text" class="edit-title" value="${paper.title}" />
+    </div>
+    <div class="form-row">
+      <label>URL</label>
+      <input type="text" class="edit-url" value="${paper.url}" />
+    </div>
+    <div class="form-row">
+      <label>なぜ読もうと思ったか</label>
+      <textarea class="edit-reason" rows="2">${paper.reason}</textarea>
+    </div>
+    <div class="form-row">
+      <label>内容メモ</label>
+      <textarea class="edit-memo" rows="3">${paper.memo}</textarea>
+    </div>
+    <div class="form-row">
+      <label>引用</label>
+      <textarea class="edit-citation" rows="2">${paper.citation}</textarea>
+    </div>
+    <div class="form-row">
+      <label>カテゴリ</label>
+      <select class="edit-category">
+        <option value="" ${paper.category === '' ? 'selected' : ''}>未分類</option>
+        <option value="primary" ${paper.category === 'primary' ? 'selected' : ''}>一次資料</option>
+        <option value="research" ${paper.category === 'research' ? 'selected' : ''}>先行研究</option>
+        <option value="draft" ${paper.category === 'draft' ? 'selected' : ''}>下書き</option>
+      </select>
+    </div>
+    <div style="display:flex; gap:8px; justify-content:flex-end;">
+      <button class="edit-cancel-btn">キャンセル</button>
+      <button class="edit-save-btn">保存する</button>
+    </div>
+  `;
+
+  // 保存ボタン
+  card.querySelector('.edit-save-btn').addEventListener('click', function() {
+    paper.title    = card.querySelector('.edit-title').value.trim();
+    paper.url      = card.querySelector('.edit-url').value.trim();
+    paper.reason   = card.querySelector('.edit-reason').value.trim();
+    paper.memo     = card.querySelector('.edit-memo').value.trim();
+    paper.citation = card.querySelector('.edit-citation').value.trim();
+    paper.category = card.querySelector('.edit-category').value;
+
+    saveData();
+    renderPapers();
+  });
+
+  // キャンセルボタン
+  card.querySelector('.edit-cancel-btn').addEventListener('click', function() {
+    renderPapers();
+  });
+}

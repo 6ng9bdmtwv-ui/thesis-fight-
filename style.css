@@ -2,7 +2,7 @@
 :root{
     --color-primary: #1F6367; /*メインカラー*/
     --color-primary-light: #cadbdc; /* メインカラーの薄い版 */
-    --color-primary-hover: rgb(254, 246, 247); /* ホバー時の背景 */
+    --color-primary-hover: #d4dfe0; /* ホバー時の背景 */
     --color-bg: #FCF9F5;           /* ページ背景 */
     --color-white: #fff;           /* 白 */
     --color-border: #ddd;          /* 境界線 */
@@ -167,7 +167,7 @@ button:hover {
 }
 
 .memo-delete-btn:hover {
-  background-color: #f28b82;
+  background-color: #C95B50;
   color: white;
   opacity: 1;
 }
@@ -233,13 +233,17 @@ input[type="text"]:focus {
 }
 
 .paper-title {
-  font-size: 17px;
+  font-size: 14px;
   font-weight: bold;
-  color: var(--color-primary)
+  color: var(--color-primary);
+  text-align: left;
+  align-self: center;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 .paper-url {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text);
   word-break: break-all;
 }
@@ -259,7 +263,7 @@ input[type="text"]:focus {
 }
 
 .paper-section {
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.6;
   white-space: pre-wrap;
   color:var(--color-text-sub)
@@ -289,7 +293,7 @@ input[type="text"]:focus {
 }
 
 .paper-delete-btn:hover {
-  background-color: #f28b82;
+  background-color: #C95B50;
   color: white;
   opacity: 1;
 }
@@ -383,18 +387,15 @@ input[type="text"]:focus {
   font-family: "Kiwi Maru", serif;
 }
 
-/* ❌ サブメニュー関連を全部削除して以下に書き換え */
-
 .sub-item {
   padding: 8px 20px 8px 32px !important;
   font-size: 13px;
   color: var(--color-text-sub);
-  background-color: #d7e1e1
 }
 
 .sub-item:hover {
   color: var(--color-primary);
-  background-color: #d7e1e1
+  
 }
 
 /* ===== サイドバーリサイザー ===== */
@@ -407,4 +408,88 @@ input[type="text"]:focus {
   cursor: col-resize;
 }
 
+/* ===== タブ ===== */
+.tab-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
 
+.tab-btn {
+  padding: 8px 12px;
+  background-color: var(--color-white);
+  color: var(--color-text-sub);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 12px;
+  cursor: pointer;
+  align-self: auto;
+}
+
+.tab-btn:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+.tab-btn.active {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.tab-btn.active:hover {
+  opacity: 0.85;
+}
+
+select {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  background-color: var(--color-white);
+}
+
+/* ===== 編集ボタン ===== */
+.paper-edit-btn {
+  padding: 4px 12px;
+  font-size: 12px;
+  background-color: #e0e0e0;
+  color: #555;
+  margin-right: 4px;
+}
+
+.paper-edit-btn:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+.edit-save-btn {
+  background-color: var(--color-primary);
+}
+
+.edit-cancel-btn {
+  background-color: #e0e0e0;
+  color: #555;
+}
+
+.edit-cancel-btn:hover {
+  opacity: 0.85;
+}
+
+.paper-btns {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ===== 編集フォーム ===== */
+.edit-title,
+.edit-url,
+.edit-reason,
+.edit-memo,
+.edit-citation {
+  font-size: 11px; /* ← 好みのサイズに変えてください */
+}
