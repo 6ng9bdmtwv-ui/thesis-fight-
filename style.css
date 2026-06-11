@@ -491,5 +491,30 @@ select {
 .edit-reason,
 .edit-memo,
 .edit-citation {
-  font-size: 11px; /* ← 好みのサイズに変えてください */
+  font-size: 11px;
+}
+
+/* ===== メモボタン ===== */
+.memo-btns {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.memo-edit-btn {
+  padding: 4px 12px;
+  font-size: 12px;
+  background-color: #e0e0e0;
+  color: #555;
+}
+
+.memo-edit-btn:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+.edit-memo-text {
+  font-size: 13px;
+  width: 100%;
 }

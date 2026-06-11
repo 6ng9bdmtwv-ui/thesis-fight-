@@ -107,9 +107,12 @@ function addMemo(){
     const li = document.createElement('li');
     li.className = 'memo-item';
     li.innerHTML =`
-        <div class="memo-text">${text}</div>
+        <div class="memo-text">${parseMarkdown(text)}</div>
         <div class="memo-date">${dateStr}</div>
-        <button class="memo-delete-btn">削除</button>
+        <div class="memo-btns">
+            <button class="memo-edit-btn">編集</button>
+            <button class="memo-delete-btn">削除</button>
+        </div>
         `;
     // 削除ボタンが押されたときの処理
     const deleteBtn =li.querySelector('.memo-delete-btn');
@@ -118,6 +121,11 @@ function addMemo(){
         memos.splice(index, 1);
         li.remove();
         saveData();
+    });
+
+    // 編集ボタン
+    li.querySelector('.memo-edit-btn').addEventListener('click', function(){
+        editMemo(memo.id, li);
     });
 
     //リストの先頭に追加（新しいものが上に）
@@ -256,6 +264,15 @@ function deletePaper(id) {
   saveData();
 }
 
+// ===== Markdown変換 =====
+function parseMarkdown(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/~~(.*?)~~/g, '<s>$1</s>')
+    .replace(/\n/g, '<br>');
+}
+
 // ===== 共通ユーティリティ =====
 function getDateStr() {
   const now = new Date();
@@ -288,17 +305,25 @@ function renderMemos() {
     const li = document.createElement('li');
     li.className = 'memo-item';
     li.innerHTML = `
-      <div class="memo-text">${memo.text}</div>
+      <div class="memo-text">${parseMarkdown(memo.text)}</div>
       <div class="memo-date">${memo.date}</div>
-      <button class="memo-delete-btn">削除</button>
+      <div class="memo-btns">
+        <button class="memo-edit-btn">編集</button>
+        <button class="memo-delete-btn">削除</button>
+      </div>
     `;
 
-    const deleteBtn = li.querySelector('.memo-delete-btn');
-    deleteBtn.addEventListener('click', function(){
+    // 削除ボタン
+    li.querySelector('.memo-delete-btn').addEventListener('click', function(){
       const index = memos.findIndex(m => m.id === memo.id);
       memos.splice(index, 1);
       li.remove();
       saveData();
+    });
+
+    // 編集ボタン
+    li.querySelector('.memo-edit-btn').addEventListener('click', function(){
+      editMemo(memo.id, li);
     });
 
     memoList.appendChild(li);
@@ -457,5 +482,28 @@ function editPaper(id) {
   // キャンセルボタン
   card.querySelector('.edit-cancel-btn').addEventListener('click', function() {
     renderPapers();
+  });
+}
+
+// ===== メモ編集 =====
+function editMemo(id, li) {
+  const memo = memos.find(m => m.id === id);
+
+  li.innerHTML = `
+    <textarea class="edit-memo-text" rows="3">${memo.text}</textarea>
+    <div style="display:flex; gap:8px; justify-content:flex-end;">
+      <button class="edit-cancel-btn">キャンセル</button>
+      <button class="edit-save-btn">保存する</button>
+    </div>
+  `;
+
+  li.querySelector('.edit-save-btn').addEventListener('click', function(){
+    memo.text = li.querySelector('.edit-memo-text').value.trim();
+    saveData();
+    renderMemos();
+  });
+
+  li.querySelector('.edit-cancel-btn').addEventListener('click', function(){
+    renderMemos();
   });
 }
